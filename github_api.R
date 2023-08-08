@@ -1,4 +1,5 @@
 library(httr)
+library(jsonlite)
 
 oauth_endpoints("github")     ##setting endpoint
 
@@ -13,4 +14,12 @@ req <- GET("https://api.github.com/users/jtleek/repos", gtoken)
 
 
 stop_for_status(req)
-content(req)
+x <- content(req)
+
+##httpub도 미리 설치해야 함.
+##하고 local access에 no.
+##하면 req의 클래스가 list 형태로 나옴.
+
+gitx <- jsonlite::fromJSON(jsonlite::toJSON(x))
+
+##하면 더 보기 좋은 데이터 프레임 형태로 나오는데, 여기서 열과 행을 찾아 데이터 찾으면 됨.
